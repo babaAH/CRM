@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Team;
+use App\Models\TaskStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TeamsFactory extends Factory
+class TaskStatusFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Team::class;
+    protected $model = TaskStatus::class;
 
     /**
      * Define the model's default state.
@@ -21,13 +21,8 @@ class TeamsFactory extends Factory
      */
     public function definition()
     {
-        $job_title = $this->faker->unique()->jobTitle();
-        $desription = $this->faker->realText();
-
         return [
-            "name" => $job_title,
-            "display_name" => $job_title,
-            "description" => $desription,
+            "title" => "task_status " . $this->faker->unique()->jobTitle(),
         ];
     }
 }
