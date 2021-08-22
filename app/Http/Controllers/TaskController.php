@@ -2,19 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateTaskRequest;
-use App\Models\TaskStatus;
 use DB;
+use Cache;
+
 use Illuminate\Http\Request;
 
+use App\Facades\TaskFacade;
+
+use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+
+use App\Models\TaskStatus;
 use App\Models\Task;
+
+
 
 class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::paginate();
+        $tasks = Task::orderBy("id", "desc")->paginate();
         return view("admin.tasks.tasks-list", compact('tasks'));
     }
 
@@ -27,7 +34,9 @@ class TaskController extends Controller
 
     public function create()
     {
-        $task_statuses = TaskStatus::all();
+        $task_statuses = Cache::rememberForever("all_task_statuses", function (){
+            return TaskStatus::all()->toArray();
+        });;
 
         return view("admin.tasks.create-task-form", [
             "task_statuses" => $task_statuses
@@ -36,26 +45,13 @@ class TaskController extends Controller
 
     public function store(CreateTaskRequest $request)
     {
-        try {
-            DB::beginTransaction();
-            $taskStatus = TaskStatus::findOrFail($request->task_status_id);
+        $result = TaskFacade::create($request->all());
 
-            $task = new Task();
-            $task->title = $request->title;
-            $task->description = $request->description;
-            $task->save();
-
-            $task->task_statuses()->associate($taskStatus);
-            $task->save();
-            DB::commit();
-
-            return redirect()->route("tasks-list");
-        }catch (\Throwable $throwable){
-            DB::rollback();
-            return back()->withErrors([
-                "message" => $throwable->getMessage()
-            ]);
+        if($result instanceof \Throwable){
+            return back()->withErrors($result->getMessage());
         }
+
+        return redirect()->route("tasks-list");
     }
 
     public function edit(Request $request, int $id)

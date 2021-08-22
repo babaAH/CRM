@@ -10,7 +10,7 @@
                     <select class="form-select" aria-label=".form-select-lg example" name="task_status_id">
                         <option selected>Open this select menu</option>
                         @foreach($task_statuses as $task_status)
-                            <option value="{{$task_status->id}}">{{$task_status->title}}</option>
+                            <option value="{{$task_status['id']}}">{{$task_status['title']}}</option>
                         @endforeach
                     </select>
                 </div>
