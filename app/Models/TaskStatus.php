@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TaskStatus extends Model
 {
-    protected $table = "tast_statuses";
+    protected $table = "task_statuses";
 
     use HasFactory;
 }

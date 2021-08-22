@@ -20,7 +20,7 @@ class CreateTasksTable extends Migration
             $table->unsignedBigInteger("task_status_id")->nullable();
             $table->timestamps();
 
-            $table->foreign("task_status_id")->references("id")->on("tast_statuses")->onDelete("cascade");
+            $table->foreign("task_status_id")->references("id")->on("task_statuses")->onDelete("cascade");
         });
     }
 

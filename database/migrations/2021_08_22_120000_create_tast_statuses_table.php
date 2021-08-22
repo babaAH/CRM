@@ -13,7 +13,7 @@ class CreateTastStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tast_statuses', function (Blueprint $table) {
+        Schema::create('task_statuses', function (Blueprint $table) {
             $table->id();
             $table->string("title");
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateTastStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tast_statuses');
+        Schema::dropIfExists('task_statuses');
     }
 }
