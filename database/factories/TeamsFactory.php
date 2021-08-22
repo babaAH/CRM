@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Model;
+use App\Models\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TeamsFactory extends Factory
@@ -12,7 +12,7 @@ class TeamsFactory extends Factory
      *
      * @var string
      */
-    protected $model = Model::class;
+    protected $model = Team::class;
 
     /**
      * Define the model's default state.
@@ -21,8 +21,13 @@ class TeamsFactory extends Factory
      */
     public function definition()
     {
+        $job_title = $this->faker->unique()->jobTitle();
+        $desription = $this->faker->realText();
+
         return [
-            //
+            "name" => $job_title,
+            "display_name" => $job_title,
+            "description" => $desription,
         ];
     }
 }
