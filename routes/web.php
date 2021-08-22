@@ -20,6 +20,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('main-page');
 
+Route::get("admin", function (){
+   return redirect()->route("dashboard");
+});
+
 Route::prefix("admin")->group(function(){
     Route::get("login", [AdminAuth::class, "loginView"])->name("login-form");
     Route::post("login", [AdminAuth::class, "login"])->name("login");
@@ -53,10 +57,10 @@ Route::prefix("admin")->group(function(){
             Route::get("create", [TaskController::class, "create"])->name("tasks-create");
             Route::post("create", [TaskController::class, "store"])->name("tasks-store");
 
-            Route::get("detail/{id}", [TaskController::class, "show"]);
-            Route::get("update/{id}", [TaskController::class, "edit"]);
-            Route::post("update/{id}", [TaskController::class, "update"]);
-            Route::post("delete/{id}", [TaskController::class, "destroy"]);
+            Route::get("detail/{id}", [TaskController::class, "show"])->name("task-detail");
+            Route::get("update/{id}", [TaskController::class, "edit"])->name("task-edit");
+            Route::post("update/{id}", [TaskController::class, "update"])->name("task-update");
+            Route::post("delete/{id}", [TaskController::class, "destroy"])->name("task-delete");
         });
     });
 });
