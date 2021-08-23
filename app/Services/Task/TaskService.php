@@ -4,6 +4,7 @@ namespace App\Services\Task;
 
 use App\Facades\TaskStatusFacade;
 use DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 use App\Models\Task;
@@ -30,18 +31,78 @@ class TaskService implements TaskServiceInterface
         }
     }
 
-    public function update($data, $id)
+    /**
+     * @param $data
+     * @param $id
+     * @return Task
+     * @throws \Throwable
+     */
+    public function update($data, $id): Task
     {
-        // TODO: Implement update() method.
+        $task = Task::find($id);
+        $task_status = TaskStatusFacade::show((int)$data["task_status_id"]);
+
+        if($task && $task_status){
+            try {
+                DB::beginTransaction();
+
+                $task->title = $data["title"];
+                $task->description = $data["description"];
+                $task->save();
+
+                $task->task_statuses()->dissociate();
+                $task->task_statuses()->associate($task_status);
+
+                $task->save();
+                DB::commit();
+                return $task;
+            }catch (\Throwable $throwable){
+                DB::rollback();
+                throw $throwable;
+            }
+        }
+
+        throw new ModelNotFoundException("Task or Task Status not found");
     }
 
     public function index()
     {
-        // TODO: Implement index() method.
+        $tasks = Task::orderBy("id", "desc")->paginate();
+
+        return $tasks;
     }
 
     public function show(int $id)
     {
-        // TODO: Implement show() method.
+        $task = Task::find($id);
+
+        if($task){
+            return $task;
+        }
+
+        return new ModelNotFoundException("Task not found");
+    }
+
+    public function delete($id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $task = Task::find($id);
+
+            if(is_null($task)){
+                throw new ModelNotFoundException("Task not found");
+            }
+
+            $task->delete();
+
+            DB::commit();
+
+            return true;
+        }catch (\Throwable $throwable){
+            DB::rollback();
+
+            throw $throwable;
+        }
     }
 }

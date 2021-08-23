@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TaskStatusController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminAuth;
 use App\Http\Controllers\CRMController;
@@ -61,6 +62,13 @@ Route::prefix("admin")->group(function(){
             Route::get("update/{id}", [TaskController::class, "edit"])->name("task-edit");
             Route::post("update/{id}", [TaskController::class, "update"])->name("task-update");
             Route::post("delete/{id}", [TaskController::class, "destroy"])->name("task-delete");
+        });
+
+        Route::group([
+            "prefix" => "task-statuses"
+        ], function(){
+            Route::get("", [TaskStatusController::class, "index"])->name("task-statuses-list");
+            Route::get("detail/{id}", [TaskStatusController::class, "show"])->name("task-status-detail");
         });
     });
 });

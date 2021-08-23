@@ -6,7 +6,7 @@ use App\Models\TaskStatus;
 use App\Services\Task\TaskServiceInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class TaskStatusService implements TaskServiceInterface
+class TaskStatusService implements TaskStatusServiceInterface
 {
 
     public function create($data)
@@ -24,9 +24,15 @@ class TaskStatusService implements TaskServiceInterface
         // TODO: Implement index() method.
     }
 
+    /**
+     * @param int $id
+     * @return mixed
+     * @throws ModelNotFoundException
+     */
     public function show(int $id)
     {
         $task_status = TaskStatus::find($id);
+
         if($task_status){
             return $task_status;
         }
