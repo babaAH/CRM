@@ -20,9 +20,9 @@
             @foreach($task_statuses as $task)
                 <tr>
                     <td>{{$task->id}}</td>
-                    <td><a href="{{route('task-detail', ['id' => $task->id])}}">{{$task->title}}</a></td>
+                    <td><a href="{{route('task-status-detail', ['id' => $task->id])}}">{{$task->title}}</a></td>
                     <td>
-                        <a class="btn btn-success" href="{{route('task-edit', ['id' => $task->id])}}">Изменить</a>
+                        <a class="btn btn-success" href="{{route('task-status-update-form', ['id' => $task->id])}}">Изменить</a>
                         <a class="btn btn-danger" href="{{route('task-delete', ['id' => $task->id])}}">Удалить</a>
                     </td>
                 </tr>

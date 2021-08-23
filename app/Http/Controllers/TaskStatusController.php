@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Facades\TaskStatusFacade;
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\CreateTaskStatusRequest;
+use App\Http\Requests\UpdateTaskStatusRequest;
 use App\Services\TaskStatus\TaskStatusService;
 use Illuminate\Http\Request;
 
@@ -19,6 +20,20 @@ class TaskStatusController extends Controller
     public function show($id)
     {
         $task = TaskStatusFacade::show($id);
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $task = TaskStatusFacade::show($id);
+
+        return view("admin.task-statuses.task-status-update-form", compact('task'));
+    }
+
+    public function update(UpdateTaskStatusRequest $request, $id)
+    {
+        TaskStatusFacade::update($request->all(), $id);
+
+        return redirect()->route('task-statuses-list');
     }
 
     public function create()
