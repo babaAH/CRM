@@ -21,7 +21,7 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::orderBy("id", "desc")->paginate();
+        $tasks = TaskFacade::index();
         return view("admin.tasks.tasks-list", compact('tasks'));
     }
 

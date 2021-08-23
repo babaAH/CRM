@@ -67,7 +67,9 @@ class TaskService implements TaskServiceInterface
 
     public function index()
     {
-        // TODO: Implement index() method.
+        $tasks = Task::orderBy("id", "desc")->paginate();
+
+        return $tasks;
     }
 
     public function show(int $id)
