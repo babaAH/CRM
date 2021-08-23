@@ -27,16 +27,22 @@ class TaskController extends Controller
 
     public function show(Request $request, int $id)
     {
-        $task = Task::findOrFail($id);
+        $task = TaskFacade::show($id);
 
-        return view("admin.task-detail", compact('task'));
+        if($task instanceof \Throwable){
+            return view("admin.404", [
+                "message" => $task->getMessage(),
+            ]);
+        }
+
+        return view("admin.tasks.task-detail", compact('task'));
     }
 
     public function create()
     {
         $task_statuses = Cache::rememberForever("all_task_statuses", function (){
             return TaskStatus::all()->toArray();
-        });;
+        });
 
         return view("admin.tasks.create-task-form", [
             "task_statuses" => $task_statuses
@@ -56,14 +62,25 @@ class TaskController extends Controller
 
     public function edit(Request $request, int $id)
     {
-        $task = Task::findOrFail($id);
+        $task = Task::with(['task_statuses'])->findOrFail($id);
 
-        return view("admin.task-edit", compact('task'));
+        $task_statuses =  Cache::rememberForever("all_task_statuses", function (){
+            return TaskStatus::all()->toArray();
+        });
+
+        return view("admin.tasks.update-task-form", compact('task', 'task_statuses'));
     }
 
     public function update(UpdateTaskRequest $request, int $id)
     {
-        //todo
+        try {
+            $task = TaskFacade::update($request->all(), $id);
+            return view("admin.tasks.task-detail", compact('task'));
+        }catch (\Throwable $throwable){
+            return back()->withErrors([
+                "message" => $throwable->getMessage(),
+            ]);
+        }
     }
 
     public function destroy(Request $request, int $id)

@@ -5,7 +5,7 @@ namespace App\Services\TaskStatus;
 interface TaskStatusServiceInterface
 {
     public function create($data);
-    public function update($data, $id);
+    public function update($data,int $id);
     public function index();
-    public function show($id);
+    public function show(int $id);
 }
