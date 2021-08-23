@@ -19,9 +19,12 @@ class TaskStatusService implements TaskStatusServiceInterface
         // TODO: Implement update() method.
     }
 
+    /**
+     * @return mixed
+     */
     public function index()
     {
-        // TODO: Implement index() method.
+        return TaskStatus::orderBy("id", "desc")->paginate();
     }
 
     /**
@@ -38,5 +41,10 @@ class TaskStatusService implements TaskStatusServiceInterface
         }
 
         throw new ModelNotFoundException("Task Status Not Found");
+    }
+
+    public function delete($id)
+    {
+        //TODO
     }
 }
