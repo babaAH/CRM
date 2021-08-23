@@ -12,4 +12,5 @@ interface TaskServiceInterface
     public function update($data, $id):Task;
     public function index();
     public function show(int $id);
+    public function delete($id);
 }

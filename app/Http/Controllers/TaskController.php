@@ -12,9 +12,10 @@ use App\Facades\TaskFacade;
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 
+use App\Services\Task\TaskService;
+
 use App\Models\TaskStatus;
 use App\Models\Task;
-
 
 
 class TaskController extends Controller
@@ -86,17 +87,9 @@ class TaskController extends Controller
     public function destroy(Request $request, int $id)
     {
         try {
-            DB::beginTransaction();
-
-            $task = Task::findOrFail($id);
-            $task->delete();
-
-            DB::commit();
-
-            return redirect()->route('tasks-list');
+            TaskService::delete($id);
+            return redirect()->route("tasks-list");
         }catch (\Throwable $throwable){
-            DB::rollback();
-
             return back()->withErrors([
                 "message" => $throwable->getMessage()
             ]);

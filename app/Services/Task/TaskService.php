@@ -82,4 +82,27 @@ class TaskService implements TaskServiceInterface
 
         return new ModelNotFoundException("Task not found");
     }
+
+    public function delete($id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $task = Task::find($id);
+
+            if(is_null($task)){
+                throw new ModelNotFoundException("Task not found");
+            }
+
+            $task->delete();
+
+            DB::commit();
+
+            return true;
+        }catch (\Throwable $throwable){
+            DB::rollback();
+
+            throw $throwable;
+        }
+    }
 }
