@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskStatusController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminAuth;
 use App\Http\Controllers\CRMController;
@@ -34,7 +35,6 @@ Route::prefix("admin")->group(function(){
         "middleware" => "auth"
     ], function(){
         Route::get("dashboard", [CRMController::class, "index"])->name("dashboard");
-        Route::get("users", [CRMController::class, "listUsersType"])->name("list-users");
         Route::get("profile", [CRMController::class, "profile"])->name("profile");
         Route::post("profile", [CRMController::class, "updateProfile"])->name("updateProfile");
 
@@ -73,6 +73,15 @@ Route::prefix("admin")->group(function(){
             Route::post("update/{id}", [TaskStatusController::class, "update"])->name("task-status-update");
             Route::get("create", [TaskStatusController::class, "create"])->name("task-status-create");
             Route::post("create", [TaskStatusController::class, "store"])->name("task-status-store");
+        });
+
+        Route::group([
+            "prefix" => "users"
+        ], function(){
+            Route::get("", [UserController::class, "index"])->name("users-list");
+            Route::get("detail/{id}", [UserController::class, "index"])->name("users-detail");
+            Route::get("create",[UserController::class, "store"])->name("users-store");
+            Route::post("create",[UserController::class, "create"])->name("users-create");
         });
     });
 });
