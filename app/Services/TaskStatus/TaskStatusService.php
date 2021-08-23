@@ -2,6 +2,7 @@
 
 namespace App\Services\TaskStatus;
 
+use DB;
 use App\Models\TaskStatus;
 use App\Services\Task\TaskServiceInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -11,17 +12,47 @@ class TaskStatusService implements TaskStatusServiceInterface
 
     public function create($data)
     {
-        // TODO: Implement create() method.
+        try {
+            DB::beginTransaction();
+            $task_status = new TaskStatus();
+            $task_status->title = $data["title"];
+            $task_status->save();
+            DB::commit();
+
+            return $task_status;
+        }catch(\Throwable $throwable){
+            DB::rollback();
+            throw $throwable;
+        }
     }
 
     public function update($data, $id)
     {
-        // TODO: Implement update() method.
+        $task_status = TaskStatus::find($id);
+
+        if(is_null($task_status)){
+            throw new ModelNotFoundException("Task Status not found");
+        }
+
+        try {
+            DB::beginTransaction();
+            $task_status->title = $data["title"];
+            $task_status->save();
+            DB::commit();
+
+            return $task_status;
+        }catch(\Throwable $throwable){
+            DB::rollback();
+            throw $throwable;
+        }
     }
 
+    /**
+     * @return mixed
+     */
     public function index()
     {
-        // TODO: Implement index() method.
+        return TaskStatus::orderBy("id", "desc")->paginate();
     }
 
     /**
@@ -38,5 +69,10 @@ class TaskStatusService implements TaskStatusServiceInterface
         }
 
         throw new ModelNotFoundException("Task Status Not Found");
+    }
+
+    public function delete($id)
+    {
+        //TODO
     }
 }

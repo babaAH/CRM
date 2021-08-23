@@ -69,6 +69,10 @@ Route::prefix("admin")->group(function(){
         ], function(){
             Route::get("", [TaskStatusController::class, "index"])->name("task-statuses-list");
             Route::get("detail/{id}", [TaskStatusController::class, "show"])->name("task-status-detail");
+            Route::get("update/{id}", [TaskStatusController::class, "edit"])->name("task-status-update-form");
+            Route::post("update/{id}", [TaskStatusController::class, "update"])->name("task-status-update");
+            Route::get("create", [TaskStatusController::class, "create"])->name("task-status-create");
+            Route::post("create", [TaskStatusController::class, "store"])->name("task-status-store");
         });
     });
 });

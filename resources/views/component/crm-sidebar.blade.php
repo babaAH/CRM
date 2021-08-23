@@ -24,6 +24,9 @@
             <a href="{{route('tasks-list')}}">Задачи</a>
         </li>
         <li>
+            <a href="{{route('task-statuses-list')}}">Статусы задач</a>
+        </li>
+        <li>
             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Заказы</a>
             <ul class="collapse list-unstyled" id="pageSubmenu">
                 <li>
