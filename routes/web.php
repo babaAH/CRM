@@ -82,6 +82,7 @@ Route::prefix("admin")->group(function(){
             Route::get("detail/{id}", [UserController::class, "index"])->name("users-detail");
             Route::get("create",[UserController::class, "store"])->name("users-store");
             Route::post("create",[UserController::class, "create"])->name("users-create");
+            Route::post("delete/{id}",[UserController::class, "destroy"])->name("users-delete");
         });
     });
 });

@@ -4,7 +4,7 @@
             <a href="{{ route('dashboard') }}">Dashboard</a>
         </li>
         <li>
-            <a href="{{route('list-users')}}">Пользователи</a>
+            <a href="{{route('users-list')}}">Пользователи</a>
             <ul class="collapse list-unstyled" id="homeSubmenu">
                 <li>
                     <a href="#">Пользователи CRM</a>
