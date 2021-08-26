@@ -80,9 +80,14 @@ Route::prefix("admin")->group(function(){
         ], function(){
             Route::get("", [UserController::class, "index"])->name("users-list");
             Route::get("detail/{id}", [UserController::class, "index"])->name("users-detail");
+
+            Route::get("update/{id}",[UserController::class, "edit"])->name("users-edit");
+            Route::post("update/{id}",[UserController::class, "update"])->name("users-update");
+
+            Route::post("delete/{id}",[UserController::class, "destroy"])->name("users-delete");
+
             Route::get("create",[UserController::class, "store"])->name("users-store");
             Route::post("create",[UserController::class, "create"])->name("users-create");
-            Route::post("delete/{id}",[UserController::class, "destroy"])->name("users-delete");
         });
     });
 });
