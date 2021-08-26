@@ -24,13 +24,6 @@ class CRMController extends Controller
         ]);
     }
 
-    public function listUsersType()
-    {
-        $user_roles = [];
-
-        return view("admin.users-type", compact('user_roles'));
-    }
-
     public function profile()
     {
         $user = Auth::user();
