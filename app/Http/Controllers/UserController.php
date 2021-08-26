@@ -44,7 +44,22 @@ class UserController extends Controller
 
     public function edit(Request $request, $id)
     {
-        //todo
+        $user = UserFacade::show($id);
+
+        return view("admin.users.user-edit", compact('user'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $user = UserFacade::update($request->all(), $id);
+
+            return redirect()->route("users-list");
+        }catch (\Throwable $th){
+            return back()->withErrors([
+                "message" => $th->getMessage()
+            ]);
+        }
     }
 
     public function destroy(Request $request, $id)
