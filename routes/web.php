@@ -29,7 +29,7 @@ Route::get("admin", function (){
 Route::prefix("admin")->group(function(){
     Route::get("login", [AdminAuth::class, "loginView"])->name("login-form");
     Route::post("login", [AdminAuth::class, "login"])->name("login");
-    Route::post("logout", [AdminAuth::class, "logout"])->name("logout-user");
+    Route::get("logout", [AdminAuth::class, "logout"])->name("logout");
 
     Route::group([
         "middleware" => "auth"
