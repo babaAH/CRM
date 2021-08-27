@@ -88,6 +88,8 @@ Route::prefix("admin")->group(function(){
 
             Route::get("create",[UserController::class, "store"])->name("users-store");
             Route::post("create",[UserController::class, "create"])->name("users-create");
+
+            Route::get("clients", [UserController::class, "indexClients"])->name("clients-list");
         });
     });
 });

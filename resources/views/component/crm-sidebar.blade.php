@@ -4,13 +4,13 @@
             <a href="{{ route('dashboard') }}">Dashboard</a>
         </li>
         <li>
-            <a href="{{route('users-list')}}">Пользователи</a>
+            <a href="#homeSubmenu"  data-toggle="collapse" >Пользователи</a>
             <ul class="collapse list-unstyled" id="homeSubmenu">
                 <li>
-                    <a href="#">Пользователи CRM</a>
+                    <a href="{{route('users-list')}}">Сотрудники</a>
                 </li>
                 <li>
-                    <a href="#">Клиенты</a>
+                    <a href="{{route('clients-list')}}">Клиенты</a>
                 </li>
                 <li>
                     <a href="#">Поставщики</a>
