@@ -4,16 +4,27 @@ namespace App\Services\Task;
 
 use App\Facades\TaskStatusFacade;
 use DB;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 use App\Models\Task;
 use App\Models\TaskStatus;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 
 class TaskService implements TaskServiceInterface
 {
     public function create($data)
     {
+        if(!$user = Auth::user()){
+            throw new AuthenticationException();
+        }
+
+        if(!$user->hasPermission("create-task")){
+            throw new AccessDeniedException("Недостаточно прав для этого действия");
+        }
+
         try {
             DB::beginTransaction();
             $task_status = TaskStatusFacade::show($data["task_status_id"]);
@@ -27,7 +38,7 @@ class TaskService implements TaskServiceInterface
             DB::commit();
         }catch (\Throwable $throwable){
             DB::rollback();
-            return $throwable;
+            throw $throwable;
         }
     }
 
@@ -39,6 +50,14 @@ class TaskService implements TaskServiceInterface
      */
     public function update($data, $id): Task
     {
+        if(!$user = Auth::user()){
+            throw new AuthenticationException();
+        }
+
+        if(!$user->hasPermission("update-task")){
+            throw new AccessDeniedException("Недостаточно прав для этого действия");
+        }
+
         $task = Task::find($id);
         $task_status = TaskStatusFacade::show((int)$data["task_status_id"]);
 
@@ -67,6 +86,14 @@ class TaskService implements TaskServiceInterface
 
     public function index()
     {
+        if(!$user = Auth::user()){
+            throw new AuthenticationException();
+        }
+
+        if(!$user->hasPermission("read-task")){
+            throw new AccessDeniedException("Недостаточно прав для этого действия");
+        }
+
         $tasks = Task::orderBy("id", "desc")->paginate();
 
         return $tasks;
@@ -74,6 +101,14 @@ class TaskService implements TaskServiceInterface
 
     public function show(int $id)
     {
+        if(!$user = Auth::user()){
+            throw new AuthenticationException();
+        }
+
+        if(!$user->hasPermission("read-task")){
+            throw new AccessDeniedException("Недостаточно прав для этого действия");
+        }
+
         $task = Task::find($id);
 
         if($task){
@@ -85,6 +120,14 @@ class TaskService implements TaskServiceInterface
 
     public function delete($id)
     {
+        if(!$user = Auth::user()){
+            throw new AuthenticationException();
+        }
+
+        if(!$user->hasPermission("delete-task")){
+            throw new AccessDeniedException("Недостаточно прав для этого действия");
+        }
+
         try {
             DB::beginTransaction();
 
