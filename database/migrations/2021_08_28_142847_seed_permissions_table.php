@@ -32,27 +32,47 @@ class SeedPermissionsTable extends Migration
             ],
             [
                 "name" => "read-user",
-                "display_name" => "Can create user",
+                "display_name" => "Can create task",
                 "description" => "",
             ],
             [
                 "name" => "create-task",
-                "display_name" => "Can create user",
+                "display_name" => "Can create task",
                 "description" => "",
             ],
             [
                 "name" => "update-task",
-                "display_name" => "Can update user",
+                "display_name" => "Can update task",
                 "description" => "",
             ],
             [
                 "name" => "delete-task",
-                "display_name" => "Can create user",
+                "display_name" => "Can create task",
                 "description" => "",
             ],
             [
                 "name" => "read-task",
                 "display_name" => "Can create user",
+                "description" => "",
+            ],
+            [
+                "name" => "create-task-status",
+                "display_name" => "Can create task-status",
+                "description" => "",
+            ],
+            [
+                "name" => "update-task-status",
+                "display_name" => "Can update task-status",
+                "description" => "",
+            ],
+            [
+                "name" => "delete-task-status",
+                "display_name" => "Can create task-status",
+                "description" => "",
+            ],
+            [
+                "name" => "read-task-status",
+                "display_name" => "Can create task-status",
                 "description" => "",
             ],
         );
