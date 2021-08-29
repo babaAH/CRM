@@ -30,6 +30,31 @@ class SeedPermissionsTable extends Migration
                 "display_name" => "Can create user",
                 "description" => "",
             ],
+            [
+                "name" => "read-user",
+                "display_name" => "Can create user",
+                "description" => "",
+            ],
+            [
+                "name" => "create-task",
+                "display_name" => "Can create user",
+                "description" => "",
+            ],
+            [
+                "name" => "update-task",
+                "display_name" => "Can update user",
+                "description" => "",
+            ],
+            [
+                "name" => "delete-task",
+                "display_name" => "Can create user",
+                "description" => "",
+            ],
+            [
+                "name" => "read-task",
+                "display_name" => "Can create user",
+                "description" => "",
+            ],
         );
     }
 

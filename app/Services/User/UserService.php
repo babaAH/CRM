@@ -4,15 +4,28 @@ namespace App\Services\User;
 
 use DB;
 
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Models\User;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 
 class UserService implements UserServiceInterface
 {
     public function create($data)
     {
+        $auth_user = Auth::user();
+
+        if(is_null($auth_user)){
+            throw new AuthenticationException();
+        }
+
+        if(!$auth_user->hasPermission("create-user")){
+            throw new AccessDeniedException( "У вас недостаточно прав для этого действия");
+        }
+
         try {
             DB::beginTransaction();
             $user = new User;
